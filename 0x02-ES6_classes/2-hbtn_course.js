@@ -1,45 +1,50 @@
 export default class HolbertonCourse {
+  /**
+   * Creates a new @see {@link HolbertonCourse}.
+   *
+   * @param {String} name - The name of the course.
+   * @param {Number} length - How long the course is (in months).
+   * @param {String[]} students - The names of students in the course.
+   */
   constructor(name, length, students) {
-    this._name = this.validate(name, 'Name', 'string');
-    this._length = this.validate(length, 'Length', 'number');
-    this._students = this.validate(students, 'Students', 'array');
+    this.name = name;
+    this.length = length;
+    this.students = students;
   }
 
   get name() {
     return this._name;
   }
 
-  set name(newName) {
-    this._name = this.validate(newName, 'name', 'string');
+  set name(value) {
+    if (typeof value !== 'string') {
+      throw new TypeError('Name must be a string');
+    }
+    this._name = value;
   }
 
-  // Getter and Setter for length
   get length() {
     return this._length;
   }
 
-  set length(newLength) {
-    this._length = this.validate(newLength, 'length', 'number');
+  set length(value) {
+    if (typeof value !== 'number') {
+      throw new TypeError('Length must be a number');
+    }
+    this._length = value;
   }
 
-  // Getter and Setter for students
   get students() {
     return this._students;
   }
 
-  set students(newStudents) {
-    this._students = this.validate(newStudents, 'students', 'array');
-  }
-
-  // Validation methods
-  static validate(arg, attributeName, type) {
-    if (type === 'array') {
-      if (!Array.isArray(arg) || !arg.every((item) => typeof item === 'string')) {
-        throw new TypeError(`${attributeName} must be an array of strings`);
-      }
-    } else if (typeof arg !== type) {
-      throw new TypeError(`${attributeName} must be a ${type}`);
+  set students(value) {
+    if (!(value instanceof Array)) {
+      throw new TypeError('Students must be an array of strings');
     }
-    return arg;
+    if (!value.every((student) => typeof student === 'string')) {
+      throw new TypeError('Students must be an array of strings');
+    }
+    this._students = value;
   }
 }
